@@ -281,7 +281,12 @@ public class ProbeFilter implements Filter {
      * @return the array of resource path parts or <code>null</code> if the given URI does not represent a Probe resource
      */
     static String[] getResourcePathParts(String requestUri, String contextPath) {
-        final String path = requestUri.substring(contextPath.length(), requestUri.length());
+        final String path;
+        if (contextPath.length() > requestUri.length()) {
+            path = requestUri;
+        } else {
+            path = requestUri.substring(contextPath.length(), requestUri.length());
+        }
         if (path.startsWith(REST_URL_PATTERN_BASE)) {
             return Resource.splitPath(path.substring(REST_URL_PATTERN_BASE.length(), path.length()));
         }
